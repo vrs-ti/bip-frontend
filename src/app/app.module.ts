@@ -17,7 +17,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BeneficioComponent } from './beneficio/beneficio.component';
 import { BeneficioModule } from "./beneficio/beneficio.module";
-
+import { CurrencyMaskModule } from "ng2-currency-mask";
 
 @NgModule({
   declarations: [
@@ -34,7 +34,8 @@ import { BeneficioModule } from "./beneficio/beneficio.module";
     MatTableModule,
     MatIconModule,
     BrowserAnimationsModule,
-    BeneficioModule
+    BeneficioModule,
+    CurrencyMaskModule
 ],
   providers: [
     BeneficioService

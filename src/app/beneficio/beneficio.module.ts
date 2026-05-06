@@ -6,6 +6,7 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatIconModule } from "@angular/material/icon";
 import { MatTableModule } from "@angular/material/table";
+import { CurrencyMaskModule } from "ng2-currency-mask";
 
 
 
@@ -19,7 +20,8 @@ import { MatTableModule } from "@angular/material/table";
     MatToolbarModule,
     MatTabsModule,
     MatIconModule,
-    MatTableModule
+    MatTableModule,
+    CurrencyMaskModule
 ],
   exports:[
     BeneficioComponent

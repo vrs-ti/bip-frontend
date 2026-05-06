@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Beneficio } from '../beneficio/model/beneficio';
 import { BeneficioTransferenciaDTO } from '../beneficio/model/beneficio-transferenciaDTO';
+import { environment } from '@env';
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,7 @@ export class BeneficioService {
 
   constructor(private http: HttpClient) { }
 
-  urlbase:string = 'http://localhost:8080/api/v1/beneficios';
+  urlbase:string = environment.urlBase;
 
   getBeneficio(): Beneficio {
     let beneficio = new Beneficio();
@@ -32,7 +34,6 @@ export class BeneficioService {
 
 
   getListaBeneficio(): Observable<Beneficio[]>{
-    console.log(this.urlbase);
     return this.http.get<Beneficio[]>(this.urlbase);
   }
 

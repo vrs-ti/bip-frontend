@@ -4,6 +4,7 @@
 
 <mat-tab-group #allTabs [(selectedIndex)]="indexSelecionado" (selectedTabChange)="aoMudarAba($event)">
     <mat-tab label="Dados da transferência">
+      <br />
       <div class="container">
         <form #beneficioForm="ngForm" (ngSubmit)="onSubmit()">
 
@@ -21,26 +22,47 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label>ID-Beneficio Origem</label>
-                  <input type="text" name="id" id="id" class="form-control" [(ngModel)]="beneficioTrensferencia.idBeneficioFrom">
+                  <label for="idBeneficioFrom" class="active">Selecione a origem do benefício</label>
+<!--class=browser-default-->
+                  <select  class="form-control"
+                           id="idBeneficioFrom"
+                           name="idBeneficioFrom"
+                           [(ngModel)]="beneficioSelecionadoFrom"
+                           (change)="onselectedBeneficioFrom($event)">
+
+                     <option disabled>Selecione...</option>
+                     <option *ngFor="let bFrom of listaBeneficio" value="{{bFrom.id}}">{{bFrom.nome}}</option>
+                  </select>
+
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group">
-                  <label>ID-Beneficio Destino</label>
-                  <input type="text" name="nome" id="nome" class="form-control" [(ngModel)]="beneficioTrensferencia.idBeneficioTo">
+                  <label for="idBeneficioTo">Selectione o beneficio destino</label>
+                  <select  name="idBeneficioTo"
+                           name="idBeneficioTo"
+                           class="form-control"
+                           [(ngModel)]="beneficioSelecionadoTo"
+                           (change)="onselectedBeneficioTo($event)">
+                     <option disabled>Selecione...</option>
+                     <option *ngFor="let bTo of listaBeneficiario" value="{{bTo.id}}">{{bTo.nome}}</option>
+                  </select>
+
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group">
                   <label>Descrição</label>
-                  <input type="text" name="descricao" id="descricao" class="form-control" [(ngModel)]="beneficioTrensferencia.descricao">
+                  <input type="text" name="descricao" id="descricao" class="form-control" [(ngModel)]="beneficioTrensferencia.descricao"
+                         placeholder="Informa a descrição do benefício">
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group">
                   <label>Valor a transferir</label>
-                  <input type="text" name="valor" id="valor" class="form-control" [(ngModel)]="beneficioTrensferencia.valorTransferir">
+                  <input type="text" name="valor" id="valor" placeholder="Informa o valor a ser transfereido"
+                          currencyMask [options]="{prefix: 'R$', thousands:'.', decimal:',', align:'left',  allowNegative: false}"
+                          class="form-control" [(ngModel)]="beneficioTrensferencia.valorTransferir">
                 </div>
               </div>
             </div>
@@ -118,19 +140,23 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label>Nome</label>
-                  <input type="text" name="nome" id="nome" class="form-control" [(ngModel)]="beneficio.nome">
+                  <input type="text" name="nome" id="nome" class="form-control" [(ngModel)]="beneficio.nome"
+                         placeholder="Informa o nome do benefício">
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group">
                   <label>Descrição</label>
-                  <input type="text" name="descricao" id="descricao" class="form-control" [(ngModel)]="beneficio.descricao">
+                  <input type="text" name="descricao" id="descricao" class="form-control" [(ngModel)]="beneficio.descricao"
+                         placeholder="Informa a descrição do benefício">
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group">
                   <label>Valor</label>
-                  <input type="text" name="valor" id="valor" class="form-control" [(ngModel)]="beneficio.valor">
+                  <input type="text" name="valor" id="valor" class="form-control" [(ngModel)]="beneficio.valor"
+                         currencyMask [options]="{prefix: 'R$', thousands:'.', decimal:',', align:'left',  allowNegative: false}"
+                         placeholder="Informa o valor do benefício">
                 </div>
               </div>
             </div>

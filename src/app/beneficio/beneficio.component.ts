@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Beneficio } from './model/beneficio';
 import { BeneficioService } from '../services/beneficio.service';
 import { BeneficioTransferenciaDTO } from './model/beneficio-transferenciaDTO';
@@ -15,12 +15,14 @@ export class BeneficioComponent implements OnInit{
   beneficio!: Beneficio;
   beneficioTrensferencia!: BeneficioTransferenciaDTO;
   listaBeneficio: Beneficio[] =[];
+  listaBeneficiario: Beneficio[] =[];
   indexSelecionado!: number;
   exibirMsgSuccess: boolean =false;
   exibirMsgError: boolean =false;
   strMensagemRetorno! : string;
   colunas  =['acao', 'id', 'nome', 'descricao', 'valor'];
-
+  beneficioSelecionadoFrom: any;
+  beneficioSelecionadoTo: any;
 
   constructor(
     private  beneficioService: BeneficioService
@@ -34,8 +36,20 @@ export class BeneficioComponent implements OnInit{
     this.iniciarLista();
   }
 
+  onselectedBeneficioFrom(event: Event){
+    this.beneficioSelecionadoFrom = (event.target as HTMLSelectElement).value;
+    this.beneficioTrensferencia.idBeneficioFrom = this.beneficioSelecionadoFrom;
+
+  }
+  onselectedBeneficioTo(event: Event){
+    this.beneficioSelecionadoTo = (event.target as HTMLSelectElement).value;
+    this.beneficioTrensferencia.idBeneficioTo = this.beneficioSelecionadoTo;
+
+  }
+
   newBeneficio(){
     this.beneficio = new Beneficio();
+    this.beneficioTrensferencia =new  BeneficioTransferenciaDTO();
     this.beneficio.id = '0';
     this.exibirMsgError =false;
     this.exibirMsgSuccess = false;
@@ -45,21 +59,28 @@ export class BeneficioComponent implements OnInit{
   iniciarLista(){
     this.beneficioService.getListaBeneficio().subscribe(response =>{
       this.listaBeneficio = response;
+      this.listaBeneficiario = response;
     });
   }
 
   transferirBeneficio(){
-     this.beneficioService.transferirBeneficio(this.beneficioTrensferencia).subscribe( response => {
-        this.exibirMsgSuccess = true;
-        this.exibirMsgError =false;
-      this.formatarMensagemRetornoSucesso(response);
-     }, errorResponse =>{
-          this.formatarMensagemRetornoError(errorResponse);
-        this.exibirMsgSuccess = false;
-        this.exibirMsgError =true;
-     });
+       this.beneficioService.transferirBeneficio(this.beneficioTrensferencia).subscribe( response => {
+       this.exibirMsgSuccess = true;
+       this.exibirMsgError =false;
+       this.formatarMensagemRetornoSucesso(response);
+       this.beneficioTrensferencia =new  BeneficioTransferenciaDTO();
+       this.beneficioSelecionadoFrom =null;
+       this.beneficioSelecionadoTo=null;
+       this.listaBeneficio = [];
+      this.listaBeneficiario =[];
+       this.iniciarLista();
 
-     this.iniciarLista();
+   }, errorResponse =>{
+      this.formatarMensagemRetornoError(errorResponse);
+      this.exibirMsgSuccess = false;
+      this.exibirMsgError =true;
+    });
+
   }
 
   cancelarTransferencia(){
