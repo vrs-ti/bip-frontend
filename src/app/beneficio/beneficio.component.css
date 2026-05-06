@@ -1,0 +1,13 @@
+.mat-cell, .mat-header-cell {
+  padding: 0 12px; /* Ajuste conforme necessário */
+}
+
+.mat-column-position {
+  text-align: right;
+}
+
+
+.justify-end {
+  justify-content: flex-end;
+  text-align: right;
+}

@@ -1,0 +1,161 @@
+<mat-toolbar>TRANSFERÊNCIA DE BENEFÍCIOS</mat-toolbar>
+
+<!-- id, nome, descricao, valor, ativo-->
+
+<mat-tab-group #allTabs [(selectedIndex)]="indexSelecionado" (selectedTabChange)="aoMudarAba($event)">
+    <mat-tab label="Dados da transferência">
+      <div class="container">
+        <form #beneficioForm="ngForm" (ngSubmit)="onSubmit()">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-success" role="alert" *ngIf="exibirMsgSuccess">
+                      {{strMensagemRetorno}}!
+                    </div>
+                    <div class="alert alert-danger" role="alert" *ngIf="exibirMsgError">
+                      {{strMensagemRetorno}}!
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>ID-Beneficio Origem</label>
+                  <input type="text" name="id" id="id" class="form-control" [(ngModel)]="beneficioTrensferencia.idBeneficioFrom">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>ID-Beneficio Destino</label>
+                  <input type="text" name="nome" id="nome" class="form-control" [(ngModel)]="beneficioTrensferencia.idBeneficioTo">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Descrição</label>
+                  <input type="text" name="descricao" id="descricao" class="form-control" [(ngModel)]="beneficioTrensferencia.descricao">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Valor a transferir</label>
+                  <input type="text" name="valor" id="valor" class="form-control" [(ngModel)]="beneficioTrensferencia.valorTransferir">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md6 mt-5">
+                <button type="submit" class="btn btn-success" (click)="transferirBeneficio()">
+                  <i class="ca">Transferir Beneficio</i>
+                </button>
+                <button type="submit" class="btn btn-primary ms-5" (click)="newBeneficio()">
+                  <i class="ca">Novo benefício</i>
+                </button>
+                <button type="submit" class="btn btn-warning ms-5" (click)="cancelarTransferencia()">
+                  <i class="ca">Cancelar</i>
+                </button>
+              </div>
+            </div>
+        </form>
+
+        <hr />
+        <h2>Selecione o benefícios que deseja alterar</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="text-start">Ação</th>
+              <th class="text-start">ID</th>
+              <th class="text-start">Nome</th>
+              <th class="text-start">Descrição</th>
+              <th class="text-end">Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of listaBeneficio">
+              <td class="text-start">
+                <span class="material-symbols-outlined">
+                  <a href="#" (click)='moveToSelectedTab("Manter Benefícios", item)' title="Selecione para editar">
+                    ink_pen
+                  </a>
+              </span>
+
+              </td>
+              <td class="text-start">{{ item.id }}</td>
+              <td class="text-start">{{ item.nome }}</td>
+              <td class="text-start">{{ item.descricao }}</td>
+              <td class="text-end">{{ item.valor | currency }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+    </mat-tab>
+
+    <mat-tab label="Manter Benefícios">
+      <div class="container">
+        <form #beneficioForm="ngForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-success" role="alert" *ngIf="exibirMsgSuccess">
+                      {{strMensagemRetorno}}!
+                    </div>
+                    <div class="alert alert-danger" role="alert" *ngIf="exibirMsgError">
+                      {{strMensagemRetorno}}!
+                    </div>
+                </div>
+            </div>
+          <input type="hidden" [(ngModel)]="beneficio.ativo" name="ativo" value="1">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>ID Benefício</label>
+                  <input type="text" name="id" id="id" class="form-control" [(ngModel)]="beneficio.id" disabled="true">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Nome</label>
+                  <input type="text" name="nome" id="nome" class="form-control" [(ngModel)]="beneficio.nome">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Descrição</label>
+                  <input type="text" name="descricao" id="descricao" class="form-control" [(ngModel)]="beneficio.descricao">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Valor</label>
+                  <input type="text" name="valor" id="valor" class="form-control" [(ngModel)]="beneficio.valor">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md6 mt-5">
+                <button type="submit" class="btn btn-success" (click)="create()" [hidden]="beneficio.id !='null' && beneficio.id !='0'">
+                  <i class="ca">Gravar benefício</i>
+                </button>
+                <button type="submit" class="btn btn-success ms-5" (click)="update()"  [hidden]="beneficio.id =='null' || beneficio.id =='0'">
+                  <i class="ca">Atualizar benefício</i>
+                </button>
+                <button type="submit" class="btn btn-primary ms-5" (click)="newBeneficio()"  [disabled]="beneficio.id == '0'">
+                  <i class="ca">Novo benefício</i>
+                </button>
+                <button type="submit" class="btn btn-warning ms-5" (click)="moveToSelectedTabCancel('Dados da transferência')" >
+                  Cancelar
+                </button>
+
+
+              </div>
+            </div>
+        </form>
+      </div>
+
+
+    </mat-tab>
+</mat-tab-group>
